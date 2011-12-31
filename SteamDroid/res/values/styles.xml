@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<style name="SteamStyle" parent="@android:style/Widget.Button">
+		<item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:background">@drawable/btn_style</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+	</style>
+</resources>
