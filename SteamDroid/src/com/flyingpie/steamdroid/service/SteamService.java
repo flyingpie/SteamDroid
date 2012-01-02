@@ -13,6 +13,7 @@ import com.flyingpie.steamdroid.api.Friend;
 import com.flyingpie.steamdroid.api.MessageListener;
 import com.flyingpie.steamdroid.api.SteamClient;
 import com.flyingpie.steamdroid.app.Chat;
+import com.flyingpie.steamdroid.util.CustomExceptionHandler;
 import com.flyingpie.steamdroid.util.SteamAdapters;
 import com.flyingpie.steamdroid.util.SteamAlerts;
 import com.flyingpie.steamdroid.util.SteamNotifier;
@@ -256,6 +257,8 @@ public class SteamService extends Service implements MessageListener {
 		super.onCreate();
 		
 		Log.v("SteamDroid", "Started SteamDroid service");
+		
+		Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler());
 		
 		SteamService.context = getApplicationContext();
 		

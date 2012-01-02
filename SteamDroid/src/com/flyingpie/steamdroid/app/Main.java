@@ -13,6 +13,7 @@ import com.flyingpie.steamdroid.R;
 import com.flyingpie.steamdroid.api.Encryption;
 import com.flyingpie.steamdroid.api.SteamClient;
 import com.flyingpie.steamdroid.service.SteamService;
+import com.flyingpie.steamdroid.util.CustomExceptionHandler;
 import com.flyingpie.steamdroid.util.Observer;
 import com.flyingpie.steamdroid.util.SteamAlerts;
 import com.flyingpie.steamdroid.util.SteamNotifier;
@@ -48,6 +49,8 @@ public class Main extends Activity implements Observer, OnClickListener {
 		SteamService.getNotifier().addObserver(this);
 		
 		updateButtons();
+		
+		Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler());
 	}
 
 	@Override
