@@ -113,6 +113,12 @@ namespace SteamDroidServer.Client
                     ConnectToSteam(message[0], message[1], authCode);
                     return;
                 }
+
+                Logger.Get().Log("User not in allowed list: " + message[0]);
+            }
+            else
+            {
+                Logger.Get().Log("Invalid command");
             }
 
             Send(Protocol.Server.NotAllowed);

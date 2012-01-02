@@ -151,7 +151,7 @@ namespace SteamDroidServer.Steam
         {
             while (true)
             {
-                CallbackMsg msg = client.GetCallback();
+                CallbackMsg msg = client.WaitForCallback(true);
 
                 if (msg == null)
                 {
@@ -224,7 +224,6 @@ namespace SteamDroidServer.Steam
             while (true)
             {
                 Update();
-                Thread.Sleep(1);
             }
         }
     }

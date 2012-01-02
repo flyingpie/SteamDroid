@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using SteamDroidServer.Logging;
 using SteamDroidServer.Networking.EventArguments;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SteamDroidServer.Networking
 {
@@ -134,7 +136,7 @@ namespace SteamDroidServer.Networking
         {
             if (writer != null)
             {
-                writer.WriteLine(data);
+                writer.WriteLine(Encryption.Encrypt<System.Security.Cryptography.AesManaged>(data));
                 writer.Flush();
                 return true;
             }
@@ -189,9 +191,17 @@ namespace SteamDroidServer.Networking
                 String data;
                 while ((data = reader.ReadLine()) != null)
                 {
-                    if (MessageReceived != null)
+                    if (data.Length > 0)
                     {
-                        MessageReceived(this, new MessageReceivedEventArgs(data));
+                        data = Encryption.Decrypt<System.Security.Cryptography.AesManaged>(data);
+                        if (MessageReceived != null)
+                        {
+                            MessageReceived(this, new MessageReceivedEventArgs(data));
+                        }
+                    }
+                    else
+                    {
+                        Logger.Get().Log("Read empty line");
                     }
                 }
             }

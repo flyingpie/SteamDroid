@@ -76,7 +76,10 @@ public class SteamAlerts {
 	 */
 	public static void hideProgressDialog()
 	{
-		dialog.hide();
+		if(dialog != null)
+		{
+			dialog.hide();
+		}
 	}
 	
 	/**
@@ -87,6 +90,8 @@ public class SteamAlerts {
 	 */
 	public static void showAlert(String title, String message, Context context)
 	{
+		hideProgressDialog();
+		
 		AlertDialog.Builder alertUsername = new AlertDialog.Builder(context);
         alertUsername.setTitle(title);
         alertUsername.setMessage(message);

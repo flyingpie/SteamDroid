@@ -53,6 +53,7 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Networking\Connection.cs" />
     <Compile Include="Networking\ConnectionParameters.cs" />
+    <Compile Include="Networking\Encryption.cs" />
     <Compile Include="Networking\EventArguments\ConnectionEventArgs.cs" />
     <Compile Include="Networking\EventArguments\MessageReceivedEventArgs.cs" />
     <Compile Include="Networking\Listener.cs" />

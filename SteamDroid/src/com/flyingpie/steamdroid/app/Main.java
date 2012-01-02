@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.flyingpie.steamdroid.R;
+import com.flyingpie.steamdroid.api.Encryption;
 import com.flyingpie.steamdroid.api.SteamClient;
 import com.flyingpie.steamdroid.service.SteamService;
 import com.flyingpie.steamdroid.util.Observer;
@@ -105,6 +106,7 @@ public class Main extends Activity implements Observer, OnClickListener {
 			String host = pref.getString("prefServerAddress", "");
 			String portString = pref.getString("prefServerPort", "");
 			int port = (portString.length() > 0) ? Integer.parseInt(portString) : -1;
+			String securityKey = pref.getString("prefSecurityKey", "");
 			
 			if(username.length() == 0 || password.length() == 0)
 			{
@@ -114,9 +116,21 @@ public class Main extends Activity implements Observer, OnClickListener {
 			{
 				SteamAlerts.showAlert("Warning", "No valid server address and / or port given", this);
 			}
+			else if(securityKey.length() == 0)
+			{
+				SteamAlerts.showAlert("Warning", "No valid security key given", this);
+			}
 			else
 			{
 				SteamAlerts.showProgressDialog("Connecting", "Connecting to the SteamDroid server...", this);
+				
+				try {
+					Encryption.setKey(securityKey);
+				} catch (Exception e) {
+					e.printStackTrace();
+					SteamAlerts.showAlert("Error", "Could not set security key: " + e.getMessage(), this);
+					return;
+				}
 				
 				boolean connecting = SteamService.connect(host, port, username, password, authCode);
 				

@@ -9,6 +9,7 @@ using System.Threading;
 using SteamKit2;
 using SteamDroidServer.Logging;
 using SteamDroidServer.Steam;
+using SteamDroidServer.Networking;
 
 namespace SteamDroidServer
 {
@@ -24,30 +25,38 @@ namespace SteamDroidServer
 
         static void Main(string[] args)
         {
-            String ip = DefaultIp;
-            int port = DefaultPort;
-
-            if (CheckSteamKit())
+            try
             {
-                // Use the specified ip address, if any
-                if (args.Length >= 1)
-                {
-                    String useIp = args[0];
-                    ip = useIp;
-                }
-                
-                // Use the specified port number, if any
-                if (args.Length >= 2)
-                {
-                    int usePort;
-                    if (int.TryParse(args[1], out usePort))
-                    {
-                        port = usePort;
-                    }
-                }
+                String ip = DefaultIp;
+                int port = DefaultPort;
 
-                SteamDroidServer server = new SteamDroidServer();
-                server.Start(ip, port);
+                if (LoadKey() && CheckSteamKit())
+                {
+                    // Use the specified ip address, if any
+                    if (args.Length >= 1)
+                    {
+                        String useIp = args[0];
+                        ip = useIp;
+                    }
+
+                    // Use the specified port number, if any
+                    if (args.Length >= 2)
+                    {
+                        int usePort;
+                        if (int.TryParse(args[1], out usePort))
+                        {
+                            port = usePort;
+                        }
+                    }
+
+                    SteamDroidServer server = new SteamDroidServer();
+                    server.Start(ip, port);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Get().Log("Exception: " + e.Message);
+                Console.ReadLine();
             }
         }
 
@@ -66,6 +75,35 @@ namespace SteamDroidServer
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Loads the security key used for AES encryption
+        /// </summary>
+        /// <returns>Whether the key was successfully loaded</returns>
+        static bool LoadKey()
+        {
+            if (File.Exists(Encryption.KeyFile))
+            {
+                String data = File.ReadAllText(Encryption.KeyFile).Trim();
+
+                if (data.Length == 0)
+                {
+                    Logger.Get().Log("Warning; no security key entered");
+                }
+                else
+                {
+                    Encryption.SetKey(data);
+                    Logger.Get().Log("Security key loaded");
+                    return true;
+                }
+            }
+            else
+            {
+                Logger.Get().Log("Warning; security key could not be found (" + Encryption.KeyFile + ")");
+            }
+
+            return false;
         }
     }
 }

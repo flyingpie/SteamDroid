@@ -111,12 +111,16 @@ public class ServerConnection extends AsyncTask<Integer, Integer, String> {
 			result.append(message[i]);
 		}
 		
-		if(writer != null)
+		String data = result.toString();
+		
+		if(writer != null && data.length() > 0)
 		{
 			try {
-				writer.write(result.toString() + "\n");
+				data = Encryption.encrypt(data);
+				
+				writer.write(data);
 				writer.flush();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("ERROR Failed to send data: " + e.getMessage());
 			}
@@ -152,7 +156,8 @@ public class ServerConnection extends AsyncTask<Integer, Integer, String> {
 	
 	private String readLine()
 	{
-		StringBuilder result = new StringBuilder();
+		String result = null;
+		StringBuilder builder = new StringBuilder();
 		int c;
 		
 		try
@@ -164,7 +169,12 @@ public class ServerConnection extends AsyncTask<Integer, Integer, String> {
 				if(c == '\r') continue;
 				if(c == -1 || c == '\n') break;
 				
-				result.append((char)c);
+				builder.append((char)c);
+			}
+			
+			if(builder.length() > 0)
+			{
+				result = Encryption.decrypt(builder.toString());
 			}
 		}
 		catch(Exception e)
@@ -173,6 +183,6 @@ public class ServerConnection extends AsyncTask<Integer, Integer, String> {
 			return null;
 		}
 		
-		return result.toString();
+		return result;
 	}
 }
