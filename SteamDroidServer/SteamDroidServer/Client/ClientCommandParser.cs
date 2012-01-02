@@ -87,6 +87,8 @@ namespace SteamDroidServer.Client
                 EPersonaState state = friends.GetFriendPersonaState(steamId);
                 String game = friends.GetFriendGamePlayedName(steamId);
 
+                name = name.Replace('|', ' ');
+
                 result.Append(steamId + "|" + '"' + name + '"' + "|" + state + "|" + game);
             }
 
