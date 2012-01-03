@@ -186,7 +186,7 @@ public class Friend implements Comparable<Friend> {
 			return -1;
 		}
 		
-		int stateCompare = getState().compareTo(another.getState());
+		int stateCompare = (getState() != null) ? getState().compareTo(another.getState()) : 0;
 		if(stateCompare == 0)
 		{
 			return getName().compareTo(another.getName());
