@@ -1,5 +1,6 @@
 
-/SteamDroid/gen
-/SteamDroid/bin
-/SteamDroidServer/SteamDroidServer/bin
-/SteamDroidServer/SteamDroidServer/obj
+gen
+bin
+obj
+*.sln
+/SteamDroid2/SteamKit2Droid
