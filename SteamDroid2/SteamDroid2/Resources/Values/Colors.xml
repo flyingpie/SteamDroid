@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<color name="background">#383635</color>
+	<color name="ListBackground">#171614</color>
+	<color name="StateOnline">#5f83aa</color>
+	<color name="StateOffline">#6e6c69</color>
+	<color name="StateInGame">#93be5b</color>
+</resources>

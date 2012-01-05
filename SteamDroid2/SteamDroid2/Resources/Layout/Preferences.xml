@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+		android:title="Credentials">
+		
+		<EditTextPreference
+			android:name="prefUsername"
+			android:summary="The username of your Steam account"
+			android:defaultValue=""
+			android:title="Username"
+			android:key="prefUsername" />
+		<EditTextPreference
+			android:name="prefPassword"
+			android:summary="The password of your Steam account"
+			android:defaultValue=""
+			android:title="Password"
+			android:key="prefPassword"
+			android:password="true" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="Alerts">
+		
+		<CheckBoxPreference
+			android:name="prefEnableNotifications"
+			android:summary="Show a notification when receiving a message"
+			android:defaultValue="true"
+			android:title="Notifications"
+			android:key="prefEnableNotifications" />
+		
+		<CheckBoxPreference
+			android:name="prefEnableSounds"
+			android:summary="Play a sound when receiving a message"
+			android:defaultValue="true"
+			android:title="Sounds"
+			android:key="prefEnableSounds" />
+		
+		<CheckBoxPreference
+			android:name="prefEnableVibrate"
+			android:summary="Vibrate when receiving a message"
+			android:defaultValue="true"
+			android:title="Vibrate"
+			android:key="prefEnableVibrate" />
+	</PreferenceCategory>
+  <PreferenceCategory
+    android:title="Misc">
+
+    <CheckBoxPreference
+      android:name="prefEnableAvatars"
+      android:summary="Show avatars in the friends list (experimental)"
+      android:defaultValue="false"
+      android:title="Avatars"
+      android:key="prefEnableAvatars" />
+  </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@color/background"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent"
+	android:weightSum="1">
+    <ImageView android:id="@+id/imageView1" android:src="@drawable/steamdroid_logo" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageView>
+	
+    <Button
+    	style="@style/SteamStyle"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/connect"
+    	android:id="@+id/ButtonConnect"></Button>
+    	
+    <Button
+    	style="@style/SteamStyle"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/disconnect"
+    	android:id="@+id/ButtonDisconnect"></Button>
+    
+    <Button
+    	style="@style/SteamStyle"
+    	android:layout_height="wrap_content"
+    	android:layout_width="320dp"
+    	android:text="@string/friends"
+    	android:id="@+id/ButtonFriends"></Button>
+    
+    <Button
+    	style="@style/SteamStyle"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/change_state"
+    	android:id="@+id/ButtonChangeState"></Button>
+    
+    <Button
+    	style="@style/SteamStyle"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/settings"
+    	android:id="@+id/ButtonSettings"></Button>
+
+    <Button
+      style="@style/SteamStyle"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:text="@string/exit"
+      android:id="@+id/ButtonExit"></Button>
+</TableLayout>
