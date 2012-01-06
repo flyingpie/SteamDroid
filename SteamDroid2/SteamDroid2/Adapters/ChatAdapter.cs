@@ -103,7 +103,7 @@ namespace SteamDroid2
 			{
 				SteamFriends.FriendMsgCallback callback = (SteamFriends.FriendMsgCallback)msg;
 				
-				if(callback.EntryType == EChatEntryType.ChatMsg)
+				if(callback.EntryType == EChatEntryType.ChatMsg && callback.Sender == friend.SteamId)
 				{
 					ChatMessage message = new ChatMessage(friend, callback.Message);
 					Add(message);

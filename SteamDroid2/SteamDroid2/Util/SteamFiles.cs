@@ -34,104 +34,126 @@ namespace SteamDroid2
                 Directory.CreateDirectory(CacheDir);
 			}
 		}
-		
-		public static void LoadFromWeb(ImageView view, String url, String name)
-		{
-			Console.WriteLine("CacheDir: " + CacheDir);
 
-			try
-			{
-                new ImageLoader().Execute(new ImageLoadArguments(view, url, name));
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine("Error caching: " + e.Message);
-			}
-		}
-		
-		private static void Store(String url, String file)
-		{
-			
-		}
-
-        class ImageLoader : AsyncTask
+        public static void LoadFromWeb(String key, String url, Func<Bitmap, Object> result)
         {
+            Initialize();
+
+            // If the image is cached in memory, use it from there
+            if (bitmapCache.ContainsKey(key))
+            {
+                result(bitmapCache[key]);
+                return;
+            }
+
+            // Image not yet loaded, do so now
+            ImageLoader.Load(new ImageLoadArguments(key, url, result));
+        }
+
+        private static void CacheImage(String key, Bitmap bitmap)
+        {
+            try
+            {
+                bitmap.Compress(Bitmap.CompressFormat.Png, 90, File.Open(System.IO.Path.Combine(CacheDir, key), FileMode.OpenOrCreate));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error caching image: " + e.Message);
+            }
+        }
+
+        class ImageLoader : AsyncTask<ImageLoadArguments, int, Bitmap>
+        {
+            private const int MAX_THREADS = 8;
+
+            private static Queue<ImageLoadArguments> queue;
+            private static int running;
+
+            public static void Load(ImageLoadArguments args)
+            {
+                if (queue == null)
+                {
+                    queue = new Queue<ImageLoadArguments>();
+                    running = 0;
+                }
+
+                Console.WriteLine("Enqueued image (" + queue.Count + ") threads: " + running);
+                queue.Enqueue(args);
+
+                Start();
+            }
+
+            private static void Start()
+            {
+                if ((running < MAX_THREADS) && queue.Count > 0)
+                {
+                    new ImageLoader().Execute(new ImageLoadArguments[] { queue.Dequeue() });
+                    running++;
+                }
+            }
+
             private ImageLoadArguments arg;
 
-            protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] parameters)
+            protected override Bitmap RunInBackground(params ImageLoadArguments[] args)
             {
                 Initialize();
 
-                arg = (ImageLoadArguments)parameters[0];
+                arg = (ImageLoadArguments)args[0];
 
-                String cacheUrl = System.IO.Path.Combine(SteamFiles.CacheDir, arg.Name);
-                Bitmap bmp;
-
-                if (bitmapCache.ContainsKey(arg.Name))
+                // If the image is cached on disk, use it from there
+                String file = System.IO.Path.Combine(CacheDir, arg.Key);
+                if (File.Exists(file))
                 {
-                    Console.WriteLine("Loading bitmap from memory cache");
-                    return bitmapCache[arg.Name];
-                }
-
-                if (File.Exists(cacheUrl))
-                {
-                    Console.WriteLine("Loading bitmap from disk cache");
-                    bmp = BitmapFactory.DecodeFile(cacheUrl);
+                    Bitmap bmp = BitmapFactory.DecodeFile(file);
+                    bitmapCache.Add(arg.Key, bmp);
                     return bmp;
                 }
 
+                // Image not yet downloaded, do so now
                 try
                 {
-                    Console.WriteLine("Downloading image '" + arg.Url);
-                    bmp = BitmapFactory.DecodeStream(new Java.Net.URL(arg.Url).OpenStream());
-
-                    Console.WriteLine("Caching image");
-                    bitmapCache.Add(arg.Name, bmp);
-
-                    try
-                    {
-                        bmp.Compress(Bitmap.CompressFormat.Png, 90, File.Open(cacheUrl, FileMode.OpenOrCreate));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Error caching image to disk: " + e.Message);
-                    }
-
+                    Bitmap bmp = BitmapFactory.DecodeStream(new Java.Net.URL(arg.Url).OpenStream());
+                    bitmapCache.Add(arg.Key, bmp);
+                    CacheImage(arg.Key, bmp);
                     return bmp;
                 }
-                catch (Exception e)
+                catch(Exception)
                 {
-                    Console.WriteLine("Error reading image (" + arg.Url + ") " + e.Message);
+                    //Console.WriteLine("Error retrieving image '" + arg.Url + "': " + e.Message);
                 }
 
                 return null;
             }
 
-            protected override void OnPostExecute(Java.Lang.Object result)
+            protected override void OnPostExecute(Bitmap result)
             {
                 base.OnPostExecute(result);
 
                 if (result != null)
                 {
-                    arg.View.SetImageBitmap((Bitmap)result);
+                    arg.Result(result);
                 }
+
+                running--;
+
+                Start();
             }
         }
 
         class ImageLoadArguments : Java.Lang.Object
         {
-            public ImageLoadArguments(ImageView view, String url, String name)
+            public ImageLoadArguments(String key, String url, Func<Bitmap, Object> result)
             {
-                View = view;
+                Key = key;
                 Url = url;
-                Name = name;
+                Result = result;
             }
 
-            public ImageView View { get; set; }
+            public String Key { get; set; }
 
             public String Url { get; set; }
 
-            public String Name { get; set; }
+            public Func<Bitmap, Object> Result { get; set; }
         }
 	}
 }

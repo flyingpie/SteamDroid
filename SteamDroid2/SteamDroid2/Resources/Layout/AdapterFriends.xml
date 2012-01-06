@@ -8,9 +8,12 @@
 
         <ImageView
             android:id="@+id/ImageAvatar"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:src="@drawable/DefaultAvatar" />
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/DefaultAvatar"
+            android:padding="5dp"
+            android:cropToPadding="true" />
 
         <LinearLayout
             android:layout_width="match_parent"

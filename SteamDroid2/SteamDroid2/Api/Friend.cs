@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -23,12 +24,16 @@ namespace SteamDroid2.Api
 	{
 		public static Friend Me;
 		public static String Unknown = "[Unknown]";
-		
+
 		private SteamID steamId;
 		private ChatAdapter adapter;
 
         private String name;
         private String avatar;
+
+        private Bitmap avatarBitmap;
+
+        private EventHandler dataChangedHandler;
 		
 		public Friend(SteamID steamId)
 		{
@@ -50,6 +55,15 @@ namespace SteamDroid2.Api
         public String Avatar
         {
             get { return avatar; }
+        }
+
+        /// <summary>
+        /// Gets the avatar as bitmap
+        /// </summary>
+        public Bitmap AvatarBitmap
+        {
+            get { return avatarBitmap; }
+            set { avatarBitmap = value; }
         }
 
         /// <summary>
@@ -107,7 +121,24 @@ namespace SteamDroid2.Api
 		{
 			get { return adapter; }
 		}
-		
+
+        /// <summary>
+        /// Gets or sets the data changed handler of this friend
+        /// </summary>
+        public virtual EventHandler DataChangedHandler
+        {
+            get { return dataChangedHandler; }
+            set { dataChangedHandler = value; }
+        }
+
+        /// <summary>
+        /// Downloads the avatar
+        /// </summary>
+        public void DownloadAvatar()
+        {
+            SteamFiles.LoadFromWeb("avatar_" + SteamId.ToString(), Avatar, (x) => AvatarBitmap = x);
+        }
+
 		/// <summary>
 		/// Sends the message.
 		/// </summary>
@@ -163,6 +194,8 @@ namespace SteamDroid2.Api
 	            String avatar = BitConverter.ToString(hash).Replace("-", "").ToLower();
 	            if (!avatar.StartsWith("000000"))
 	            {
+                    avatar = avatar.Substring(0, 2) + "/" + avatar;
+                    avatar = "http://media.steampowered.com/steamcommunity/public/images/avatars/" + avatar + "_medium.jpg";
 	                this.avatar = avatar;
 	            }
 			}
@@ -207,6 +240,24 @@ namespace SteamDroid2.Api
             else
             {
                 return Name.CompareTo(other.Name);
+            }
+        }
+
+        class AvatarDownloader : AsyncTask<Friend, int, int>
+        {
+            protected override int RunInBackground(params Friend[] friend)
+            {
+                try
+                {
+                    Bitmap bmp = BitmapFactory.DecodeStream(new Java.Net.URL(friend[0].Avatar).OpenStream());
+
+                    friend[0].AvatarBitmap = bmp;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error downloading avatar: " + e.Message);
+                }
+                return 0;
             }
         }
     }

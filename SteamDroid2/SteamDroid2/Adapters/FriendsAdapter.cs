@@ -125,24 +125,34 @@ namespace SteamDroid2.Adapters
             if (pref.GetBoolean("prefEnableAvatars", false))
             {
                 String url = friend.Avatar;
-                url = url.Substring(0, 2) + "/" + url;
-                url = "http://media.steampowered.com/steamcommunity/public/images/avatars/" + url + "_medium.jpg";
-
+                
                 holder.ImageAvatar.SetBackgroundColor(color);
-                holder.ImageAvatar.SetScaleType(ImageView.ScaleType.Center);
-                holder.ImageAvatar.SetMinimumWidth(86);
-                holder.ImageAvatar.SetMinimumHeight(86);
-                holder.ImageAvatar.SetMaxWidth(86);
-                holder.ImageAvatar.SetMaxHeight(86);
 
-                SteamFiles.LoadFromWeb(holder.ImageAvatar, url, "avatar_" + friend.SteamId.ToString());
+                SetAvatarImage(holder.ImageAvatar, friend);
+
+                friend.DataChangedHandler = delegate(object sender, EventArgs e)
+                {
+                    SetAvatarImage(holder.ImageAvatar, friend);
+                };
             }
-
-            //Console.WriteLine("Acount id: " + friend.SteamId.AccountID);
-            //Console.WriteLine("Render: " + friend.SteamId.Render());
 			
 			return view;
 		}
+
+        private void SetAvatarImage(ImageView view, Friend friend)
+        {
+            if (friend.AvatarBitmap != null)
+            {
+                view.SetImageBitmap(friend.AvatarBitmap);
+            }
+            else
+            {
+                view.SetImageDrawable(context.Resources.GetDrawable(Resource.Drawable.DefaultAvatar));
+                friend.DownloadAvatar();
+            }
+
+            view.Invalidate();
+        }
 		
 		public void HandleCallback(SteamKit2.CallbackMsg msg)
 		{

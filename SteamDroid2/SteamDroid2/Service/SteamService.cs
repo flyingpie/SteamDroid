@@ -77,7 +77,10 @@ namespace SteamDroid2
 					
 					if(friend != SteamService.activeChat)
 					{
-                    	SteamAlerts.Notification("Message from " + friend.Name, friend.Name + ": " + callback.Message, callback.Message, typeof(Chat), "steam_id", friend.SteamId.ToString());
+                        Intent intent = new Intent(SteamAlerts.GetContext(), typeof(Chat));
+                        intent.PutExtra("steam_id", friend.SteamId.ToString());
+
+                    	SteamAlerts.Notification("Message from " + friend.Name, friend.Name + ": " + callback.Message, callback.Message, intent, "steam_id", friend.SteamId.ToString());
 						SteamAlerts.Vibrate(400);
 					}
                 }

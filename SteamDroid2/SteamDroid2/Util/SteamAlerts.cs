@@ -109,15 +109,13 @@ namespace SteamDroid2.Util
 			}
 		}
 		
-		public static void Notification(String title, String ticker, String message, Type intentType, String key, String value)
+		public static void Notification(String title, String ticker, String message, Intent intent, String key, String value)
 		{
 			ISharedPreferences pref = PreferenceManager.GetDefaultSharedPreferences(context);
 			if(pref.GetBoolean("prefEnableNotifications", true))
 			{
 				int icon = Resource.Drawable.NotificationIcon;
 				Notification notification = new Notification(icon, ticker);
-				
-				Intent intent = new Intent(context, intentType);
 				
 				if(key != null && value != null)
 				{

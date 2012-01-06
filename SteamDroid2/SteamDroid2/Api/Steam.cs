@@ -35,7 +35,7 @@ namespace SteamDroid2.Api
 
             Initialize();
 
-			new SteamCallback().Execute();
+            new SteamCallback().Execute();
         }
 		
         /// <summary>
@@ -68,28 +68,6 @@ namespace SteamDroid2.Api
         public bool LoggedIn
         {
             get { return loggedIn; }
-        }
-
-        /// <summary>
-        /// Authorizes against an open connection using the specified username and password
-        /// </summary>
-        /// <param name="username">The username to use</param>
-        /// <param name="password">The password to use</param>
-        /// <returns></returns>
-        public bool Authorize(String username, String password)
-        {
-            return this.username == username && this.password == password;
-        }
-
-        /// <summary>
-        /// Connects using the specified authcode
-        /// </summary>
-        /// <param name="authcode">The authcode to use</param>
-        public void Connect(String authcode)
-        {
-            this.authcode = authcode;
-
-            Connect(username, password);
         }
 
         /// <summary>
@@ -208,7 +186,7 @@ namespace SteamDroid2.Api
                 callbackHandlers[i].HandleCallback(msg);
             }
         }
-
+		
 		class SteamCallback : AsyncTask<Int32, Int32, CallbackMsg>
 		{
 			protected override void OnPreExecute()
@@ -220,7 +198,7 @@ namespace SteamDroid2.Api
 			{
 				CallbackMsg msg = SteamService.GetClient().Client.WaitForCallback(true);
 
-				return msg;
+				return null;
 			}
 			
 			protected override void OnPostExecute(CallbackMsg result)

@@ -93,9 +93,6 @@ namespace SteamDroid2
 			// aapt resource value: 0x7f07000c
 			public const int ButtonDisconnect = 2131165196;
 			
-			// aapt resource value: 0x7f070010
-			public const int ButtonExit = 2131165200;
-			
 			// aapt resource value: 0x7f07000d
 			public const int ButtonFriends = 2131165197;
 			

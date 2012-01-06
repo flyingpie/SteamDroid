@@ -40,9 +40,6 @@ namespace SteamDroid2.App
 			Button buttonSettings = FindViewById<Button>(Resource.Id.ButtonSettings);
 			buttonSettings.Click += ClickSettings;
 
-            Button buttonExit = FindViewById<Button>(Resource.Id.ButtonExit);
-            buttonSettings.Click += ClickExit;
-
 			SteamAlerts.Initialize(this);
 			
 			Intent steamService = new Intent(this, typeof(SteamService));
@@ -130,12 +127,6 @@ namespace SteamDroid2.App
 			StartActivity(intent);
 		}
 
-        private void ClickExit(object sender, EventArgs e)
-        {
-            //StopService(new Intent(this, SteamService));
-            
-        }
-		
 		private void ClickSendAuthKey(object sender, DialogClickEventArgs e)
 		{
 			SteamAlerts.HideInputDialog();
@@ -197,7 +188,7 @@ namespace SteamDroid2.App
 		
 		private void UpdateButtons()
 		{
-			bool connected = SteamService.GetClient().LoggedIn;
+			bool connected = SteamService.GetClient() != null && SteamService.GetClient().LoggedIn;
 			
 			Button buttonConnect = FindViewById<Button>(Resource.Id.ButtonConnect);
 			buttonConnect.Enabled = !connected;
