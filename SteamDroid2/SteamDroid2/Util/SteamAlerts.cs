@@ -40,7 +40,7 @@ namespace SteamDroid2.Util
 		{
 			HideProgressDialog();
 			
-			if(SteamAlerts.isAlertsEnabled)
+			if(isAlertsEnabled)
 			{
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				dialog.SetTitle(title);

@@ -87,7 +87,7 @@ namespace SteamDroid2
             {
                 Initialize();
 
-                arg = (ImageLoadArguments)args[0];
+                arg = args[0];
 
                 // If the image is cached on disk, use it from there
                 String file = System.IO.Path.Combine(CacheDir, arg.Key);

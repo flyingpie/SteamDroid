@@ -16,8 +16,8 @@ namespace SteamDroid2.App
 		{
 			base.OnCreate (bundle);
 			
-			this.ListAdapter = SteamAdapters.GetFriendsAdapter();
-			this.ListView.SetBackgroundColor(Resources.GetColor(Resource.Color.ListBackground));
+			ListAdapter = SteamAdapters.GetFriendsAdapter();
+			ListView.SetBackgroundColor(Resources.GetColor(Resource.Color.ListBackground));
 		}
 		
 		protected override void OnListItemClick (ListView l, View v, int position, long id)

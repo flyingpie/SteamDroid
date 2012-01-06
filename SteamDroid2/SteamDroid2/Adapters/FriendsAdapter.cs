@@ -148,7 +148,7 @@ namespace SteamDroid2.Adapters
             view.Invalidate();
         }
         
-        public void HandleCallback(SteamKit2.CallbackMsg msg)
+        public void HandleCallback(CallbackMsg msg)
         {
             if(msg.IsType<SteamFriends.PersonaStateCallback>())
             {

@@ -75,7 +75,7 @@ namespace SteamDroid2
 			
 			int color = Resource.Color.StateOnline;
 			
-			if(message.Friend.State == SteamKit2.EPersonaState.Offline)
+			if(message.Friend.State == EPersonaState.Offline)
 			{
 				color = Resource.Color.StateOffline;
 			}
@@ -91,7 +91,7 @@ namespace SteamDroid2
 			return view;
 		}
 		
-		public void HandleCallback(SteamKit2.CallbackMsg msg)
+		public void HandleCallback(CallbackMsg msg)
 		{
 			if(msg.IsType<SteamFriends.FriendMsgCallback>())
 			{

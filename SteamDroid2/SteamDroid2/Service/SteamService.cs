@@ -49,7 +49,7 @@ namespace SteamDroid2
             SteamAdapters.GetFriendsAdapter();
         }
         
-        public void HandleCallback(SteamKit2.CallbackMsg msg)
+        public void HandleCallback(CallbackMsg msg)
         {
             if(msg.IsType<SteamUser.LoginKeyCallback>())
             {
@@ -66,7 +66,7 @@ namespace SteamDroid2
                 {
                     Friend friend = Friend.GetFriendBySteamId(callback.Sender.ToString());
                     
-                    if(friend != SteamService.activeChat)
+                    if(friend != activeChat)
                     {
                         Intent intent = new Intent(SteamAlerts.GetContext(), typeof(Chat));
                         intent.PutExtra("steam_id", friend.SteamId.ToString());

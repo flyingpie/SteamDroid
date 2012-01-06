@@ -126,7 +126,7 @@ namespace SteamDroid2.Api
         /// </summary>
         public void DownloadAvatar()
         {
-            SteamFiles.LoadFromWeb("avatar_" + SteamId.ToString(), Avatar, (x) => AvatarBitmap = x);
+            SteamFiles.LoadFromWeb("avatar_" + SteamId, Avatar, (x) => AvatarBitmap = x);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace SteamDroid2.Api
         /// <param name='msg'>
         /// Message.
         /// </param>
-        public void HandleCallback(SteamKit2.CallbackMsg msg)
+        public void HandleCallback(CallbackMsg msg)
         {
             if(msg.IsType<SteamFriends.ChatMsgCallback>())
             {
