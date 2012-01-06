@@ -1,39 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.Net;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
-using Java.Net;
 using Android.Graphics;
 
 namespace SteamDroid2
 {
-	class SteamFiles
-	{
-		public static String CacheDir = Android.OS.Environment.ExternalStorageDirectory + "/Android/data/SteamDroid2/cache/";
-		
-		private static SortedList<String, String> cache;
+    class SteamFiles
+    {
+        public static String CacheDir = Android.OS.Environment.ExternalStorageDirectory + "/Android/data/SteamDroid2/cache/";
+        
+        private static SortedList<String, String> cache;
         private static SortedList<String, Bitmap> bitmapCache;
-		
-		public static void Initialize()
-		{
-			if(cache == null)
-			{
-				cache = new SortedList<String, String>();
+        
+        public static void Initialize()
+        {
+            if(cache == null)
+            {
+                cache = new SortedList<String, String>();
                 bitmapCache = new SortedList<String, Bitmap>();
 
                 Directory.CreateDirectory(CacheDir);
-			}
-		}
+            }
+        }
 
         public static void LoadFromWeb(String key, String url, Func<Bitmap, Object> result)
         {
@@ -155,6 +144,6 @@ namespace SteamDroid2
 
             public Func<Bitmap, Object> Result { get; set; }
         }
-	}
+    }
 }
 
