@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamDroid2", "SteamDroid2.csproj", "{CA0B89EE-D9B2-49D6-A833-81CB94E86ADF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA0B89EE-D9B2-49D6-A833-81CB94E86ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0B89EE-D9B2-49D6-A833-81CB94E86ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0B89EE-D9B2-49D6-A833-81CB94E86ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0B89EE-D9B2-49D6-A833-81CB94E86ADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0B89EE-D9B2-49D6-A833-81CB94E86ADF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CA0B89EE-D9B2-49D6-A833-81CB94E86ADF}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = SteamDroid2.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
