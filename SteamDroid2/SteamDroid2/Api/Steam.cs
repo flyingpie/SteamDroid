@@ -200,12 +200,12 @@ namespace SteamDroid2.Api
 
 				return msg;
 			}
-
+            
             protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] native_parms)
             {
                 return base.DoInBackground(native_parms);
             }
-
+            
 			protected override void OnPostExecute(CallbackMsg result)
 			{
 				base.OnPostExecute(result);
