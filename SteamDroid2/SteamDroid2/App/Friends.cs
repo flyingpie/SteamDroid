@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-
-using SteamKit2;
 using SteamDroid2.Adapters;
 using SteamDroid2.Api;
 using SteamDroid2.Util;
@@ -24,8 +16,8 @@ namespace SteamDroid2.App
 		{
 			base.OnCreate (bundle);
 			
-			this.ListAdapter = SteamAdapters.GetFriendsAdapter();
-			this.ListView.SetBackgroundColor(Resources.GetColor(Resource.Color.ListBackground));
+			ListAdapter = SteamAdapters.GetFriendsAdapter();
+			ListView.SetBackgroundColor(Resources.GetColor(Resource.Color.ListBackground));
 		}
 		
 		protected override void OnListItemClick (ListView l, View v, int position, long id)

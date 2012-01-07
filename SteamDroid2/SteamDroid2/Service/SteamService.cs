@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
 using SteamKit2;
 using SteamDroid2.Api;
 using SteamDroid2.App;
@@ -17,75 +8,75 @@ using SteamDroid2.Util;
 
 namespace SteamDroid2
 {
-	[Service]
-	public class SteamService : Service, ICallbackHandler
-	{
-		private static Steam client;
-		
-		private static Friend activeChat;
-		
-		public override IBinder OnBind (Intent intent)
-		{
-			return null;
-		}
-		
-		public static Steam GetClient()
-		{
-			if(client == null)
-			{
-				client = new Steam();	
-			}
-			
-			return client;
-		}
-		
-		public static void ClearActiveChat()
-		{
-			SteamService.activeChat = null;
-		}
-		
-		public static void SetActiveChat(Friend friend)
-		{
-			SteamService.activeChat = friend;
-		}
-		
-		public override void OnStart(Intent intent, int startId)
-		{
-			base.OnStart (intent, startId);
-			
-			SteamService.GetClient().AddHandler(this);
-			
-			SteamAdapters.GetFriendsAdapter();
-		}
-		
-		public void HandleCallback(SteamKit2.CallbackMsg msg)
-		{
-			if(msg.IsType<SteamUser.LoginKeyCallback>())
-			{
-				GetClient().Friends.SetPersonaState(EPersonaState.Online);
-				
-				Friend.Me = new Friend(GetClient().User.GetSteamID());
-				Friend.Me.Name = "me";
-			}
-			else if(msg.IsType<SteamFriends.FriendMsgCallback>())
-			{
-				SteamFriends.FriendMsgCallback callback = (SteamFriends.FriendMsgCallback)msg;
+    [Service]
+    public class SteamService : Service, ICallbackHandler
+    {
+        private static Steam client;
+        
+        private static Friend activeChat;
+        
+        public override IBinder OnBind (Intent intent)
+        {
+            return null;
+        }
+        
+        public static Steam GetClient()
+        {
+            if(client == null)
+            {
+                client = new Steam();	
+            }
+            
+            return client;
+        }
+        
+        public static void ClearActiveChat()
+        {
+            SteamService.activeChat = null;
+        }
+        
+        public static void SetActiveChat(Friend friend)
+        {
+            SteamService.activeChat = friend;
+        }
+        
+        public override void OnStart(Intent intent, int startId)
+        {
+            base.OnStart (intent, startId);
+            
+            SteamService.GetClient().AddHandler(this);
+            
+            SteamAdapters.GetFriendsAdapter();
+        }
+        
+        public void HandleCallback(CallbackMsg msg)
+        {
+            if(msg.IsType<SteamUser.LoginKeyCallback>())
+            {
+                GetClient().Friends.SetPersonaState(EPersonaState.Online);
+                
+                Friend.Me = new Friend(GetClient().User.GetSteamID());
+                Friend.Me.Name = "me";
+            }
+            else if(msg.IsType<SteamFriends.FriendMsgCallback>())
+            {
+                SteamFriends.FriendMsgCallback callback = (SteamFriends.FriendMsgCallback)msg;
 
                 if (callback.EntryType == EChatEntryType.ChatMsg)
                 {
                     Friend friend = Friend.GetFriendBySteamId(callback.Sender.ToString());
-					
-					if(friend != SteamService.activeChat)
-					{
+                    
+                    if(friend != activeChat)
+                    {
                         Intent intent = new Intent(SteamAlerts.GetContext(), typeof(Chat));
                         intent.PutExtra("steam_id", friend.SteamId.ToString());
 
-                    	SteamAlerts.Notification("Message from " + friend.Name, friend.Name + ": " + callback.Message, callback.Message, intent, "steam_id", friend.SteamId.ToString());
-						SteamAlerts.Vibrate(400);
-					}
+                        SteamAlerts.Notification("Message from " + friend.Name, friend.Name + ": " + callback.Message, callback.Message, intent, "steam_id", friend.SteamId.ToString());
+                        SteamAlerts.Vibrate(400);
+                    }
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 }
 
