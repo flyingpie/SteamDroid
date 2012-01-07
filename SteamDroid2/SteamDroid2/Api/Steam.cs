@@ -1,15 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 
 using SteamKit2;
 
@@ -17,7 +9,7 @@ namespace SteamDroid2.Api
 {
     public class Steam
     {
-        private SteamKit2.SteamClient client;
+        private SteamClient client;
         private SteamFriends friends;
         private SteamUser user;
 
@@ -41,7 +33,7 @@ namespace SteamDroid2.Api
         /// <summary>
         /// SteamClient, contains client related methods
         /// </summary>
-        public SteamKit2.SteamClient Client
+        public SteamClient Client
         {
             get { return client; }
         }
