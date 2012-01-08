@@ -123,7 +123,15 @@ namespace SteamDroid2.Util
 				notificationManager.Notify(1, notification);
 			}
 		}
-		
+
+        public static void ShowToast(String message)
+        {
+            HideProgressDialog();
+
+            Toast toast = Toast.MakeText(context, message, ToastLength.Short);
+            toast.Show();
+        }
+
 		public static void Vibrate(int duration)
 		{
 			ISharedPreferences pref = PreferenceManager.GetDefaultSharedPreferences(context);

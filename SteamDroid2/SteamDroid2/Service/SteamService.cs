@@ -76,6 +76,14 @@ namespace SteamDroid2
                     }
                 }
             }
+            else if (msg.IsType<SteamClient.ConnectCallback>())
+            {
+                SteamAlerts.ShowToast("Connected to Steam");
+            }
+            else if (msg.IsType<SteamClient.DisconnectCallback>())
+            {
+                SteamAlerts.ShowToast("Disconnected from Steam");
+            }
         }
     }
 }

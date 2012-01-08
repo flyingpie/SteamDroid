@@ -67,6 +67,7 @@
     <Compile Include="Adapters\FriendsAdapter.cs" />
     <Compile Include="Api\ChatMessage.cs" />
     <Compile Include="Adapters\ChatAdapter.cs" />
+    <Compile Include="Util\CustomExceptionHandler.cs" />
     <Compile Include="Util\SteamAlerts.cs" />
     <Compile Include="Util\SteamAdapters.cs" />
     <Compile Include="Util\SteamFiles.cs" />

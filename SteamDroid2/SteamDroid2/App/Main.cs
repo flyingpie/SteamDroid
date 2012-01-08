@@ -46,6 +46,10 @@ namespace SteamDroid2.App
             UpdateButtons();
             
             SteamService.GetClient().AddHandler(this);
+
+            //Java.Lang.Thread.DefaultUncaughtExceptionHandler = CustomExceptionHandler.GetHandler();
+
+            //"abc".Substring(5);
         }
         
         public void HandleCallback(CallbackMsg msg)
@@ -56,11 +60,11 @@ namespace SteamDroid2.App
             }
             else if(msg.IsType<SteamClient.DisconnectCallback>())
             {
-                SteamAlerts.ShowAlertDialog("Disconnected", "Disconnected from Steam", this);
+                //SteamAlerts.ShowAlertDialog("Disconnected", "Disconnected from Steam", this);
             }
             else if(msg.IsType<SteamUser.LoginKeyCallback>())
             {
-                SteamAlerts.ShowAlertDialog("Connected", "Connected to Steam", this);
+                //SteamAlerts.ShowAlertDialog("Connected", "Connected to Steam", this);
             }
             else if(msg.IsType<SteamUser.LogOnCallback>())
             {
