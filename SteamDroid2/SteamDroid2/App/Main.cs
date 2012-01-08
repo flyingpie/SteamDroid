@@ -3,6 +3,7 @@
 using Android.App;
 using Android.Content;
 using Android.Preferences;
+using Android.Views;
 using Android.Widget;
 using Android.OS;
 
@@ -20,6 +21,8 @@ namespace SteamDroid2.App
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+            RequestWindowFeature(WindowFeatures.NoTitle);
 
             SetContentView(Resource.Layout.Main);
 
