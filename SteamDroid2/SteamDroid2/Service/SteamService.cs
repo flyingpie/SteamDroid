@@ -72,6 +72,7 @@ namespace SteamDroid2
                         intent.PutExtra("steam_id", friend.SteamId.ToString());
 
                         SteamAlerts.Notification("Message from " + friend.Name, friend.Name + ": " + callback.Message, callback.Message, intent, "steam_id", friend.SteamId.ToString());
+                        SteamAlerts.PlaySound();
                         SteamAlerts.Vibrate(400);
                     }
                 }

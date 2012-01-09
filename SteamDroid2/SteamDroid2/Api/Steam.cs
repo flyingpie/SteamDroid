@@ -29,7 +29,7 @@ namespace SteamDroid2.Api
 
             new SteamCallback().Execute();
         }
-		
+        
         /// <summary>
         /// SteamClient, contains client related methods
         /// </summary>
@@ -117,15 +117,15 @@ namespace SteamDroid2.Api
             callbackHandlers.Remove(handler);
         }
 
-		/// <summary>
-		/// Processes the callbacks received from the callback thread
-		/// </summary>
-		/// <param name='msg'>
-		/// Message.
-		/// </param>
-		public void ProcessCallback(CallbackMsg msg)
-		{
-			if (msg.IsType<SteamClient.ConnectCallback>())
+        /// <summary>
+        /// Processes the callbacks received from the callback thread
+        /// </summary>
+        /// <param name='msg'>
+        /// Message.
+        /// </param>
+        public void ProcessCallback(CallbackMsg msg)
+        {
+            if (msg.IsType<SteamClient.ConnectCallback>())
             {
                 user.LogOn(new SteamUser.LogOnDetails()
                 {
@@ -146,12 +146,12 @@ namespace SteamDroid2.Api
 
                 if (callback.Result == EResult.OK)
                 {
-                    this.loggedIn = true;
-                    this.authcode = null;
+                    loggedIn = true;
+                    authcode = null;
                 }
             }
-			Push(msg);
-		}
+            Push(msg);
+        }
 
         /// <summary>
         /// Initializes the Steam client
@@ -178,41 +178,41 @@ namespace SteamDroid2.Api
                 callbackHandlers[i].HandleCallback(msg);
             }
         }
-		
-		class SteamCallback : AsyncTask<Int32, Int32, CallbackMsg>
-		{
-			protected override void OnPreExecute()
-			{
-				base.OnPreExecute();
-			}
-			
-			protected override CallbackMsg RunInBackground(params Int32[] parameters)
-			{
-				CallbackMsg msg = SteamService.GetClient().Client.WaitForCallback(true);
+        
+        class SteamCallback : AsyncTask<Int32, Int32, CallbackMsg>
+        {
+            protected override void OnPreExecute()
+            {
+                base.OnPreExecute();
+            }
+            
+            protected override CallbackMsg RunInBackground(params Int32[] parameters)
+            {
+                CallbackMsg msg = SteamService.GetClient().Client.WaitForCallback(true);
 
-				return msg;
-			}
+                return msg;
+            }
             
             protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] native_parms)
             {
                 return base.DoInBackground(native_parms);
             }
             
-			protected override void OnPostExecute(CallbackMsg result)
-			{
-				base.OnPostExecute(result);
-				
-				SteamClient client = SteamService.GetClient().Client;
-				
-				if(result != null)
-				{
-					client.FreeLastCallback();
+            protected override void OnPostExecute(CallbackMsg result)
+            {
+                base.OnPostExecute(result);
+                
+                SteamClient client = SteamService.GetClient().Client;
+                
+                if(result != null)
+                {
+                    client.FreeLastCallback();
 
-	                SteamService.GetClient().ProcessCallback(result);
-				}
-				
-				new SteamCallback().Execute();
-			}
-		}
+                    SteamService.GetClient().ProcessCallback(result);
+                }
+                
+                new SteamCallback().Execute();
+            }
+        }
     }
 }

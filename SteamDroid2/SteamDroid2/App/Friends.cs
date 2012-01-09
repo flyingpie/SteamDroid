@@ -9,23 +9,23 @@ using SteamDroid2.Util;
 
 namespace SteamDroid2.App
 {
-	[Activity (Label = "Friends")]			
-	public class Friends : ListActivity
-	{
-		protected override void OnCreate (Bundle bundle)
-		{
-			base.OnCreate (bundle);
-			
-			ListAdapter = SteamAdapters.GetFriendsAdapter();
-			ListView.SetBackgroundColor(Resources.GetColor(Resource.Color.ListBackground));
-		}
-		
-		protected override void OnListItemClick (ListView l, View v, int position, long id)
-		{
-			base.OnListItemClick (l, v, position, id);
-			
-			FriendsAdapter adapter = SteamAdapters.GetFriendsAdapter();
-			Friend friend = adapter.GetFriendAt(position);
+    [Activity (Label = "Friends")]			
+    public class Friends : ListActivity
+    {
+        protected override void OnCreate (Bundle bundle)
+        {
+            base.OnCreate (bundle);
+            
+            ListAdapter = SteamAdapters.GetFriendsAdapter();
+            ListView.SetBackgroundColor(Resources.GetColor(Resource.Color.ListBackground));
+        }
+        
+        protected override void OnListItemClick (ListView l, View v, int position, long id)
+        {
+            base.OnListItemClick (l, v, position, id);
+            
+            FriendsAdapter adapter = SteamAdapters.GetFriendsAdapter();
+            Friend friend = adapter.GetFriendAt(position);
 
             if (friend.State != SteamKit2.EPersonaState.Offline)
             {
@@ -37,7 +37,7 @@ namespace SteamDroid2.App
             {
                 SteamAlerts.ShowToast(friend.Name + " is offline");
             }
-		}
-	}
+        }
+    }
 }
 
