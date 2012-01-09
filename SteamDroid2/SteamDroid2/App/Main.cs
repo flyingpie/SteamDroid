@@ -29,17 +29,8 @@ namespace SteamDroid2.App
             Button buttonConnect = FindViewById<Button>(Resource.Id.ButtonConnect);
             buttonConnect.Click += ClickConnect;
             
-            Button buttonDisconnect = FindViewById<Button>(Resource.Id.ButtonDisconnect);
-            buttonDisconnect.Click += ClickDisconnect;
-            
             Button buttonFriends = FindViewById<Button>(Resource.Id.ButtonFriends);
             buttonFriends.Click += ClickFriends;
-            
-            Button buttonChangeState = FindViewById<Button>(Resource.Id.ButtonChangeState);
-            buttonChangeState.Click += ClickChangeState;
-            
-            Button buttonSettings = FindViewById<Button>(Resource.Id.ButtonSettings);
-            buttonSettings.Click += ClickSettings;
 
             SteamAlerts.Initialize(this);
             
@@ -50,9 +41,64 @@ namespace SteamDroid2.App
             
             SteamService.GetClient().AddHandler(this);
 
-            //Java.Lang.Thread.DefaultUncaughtExceptionHandler = CustomExceptionHandler.GetHandler();
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             //"abc".Substring(5);
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.OptionsMenu, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            Steam client = SteamService.GetClient();
+
+            switch (item.ItemId)
+            {
+                case Resource.Id.button_state_1:
+                    client.Friends.SetPersonaState(EPersonaState.Online);
+                    break;
+                case Resource.Id.button_state_2:
+                    client.Friends.SetPersonaState(EPersonaState.Away);
+                    break;
+                case Resource.Id.button_state_3:
+                    client.Friends.SetPersonaState(EPersonaState.Busy);
+                    break;
+                case Resource.Id.button_state_4:
+                    client.Friends.SetPersonaState(EPersonaState.Snooze);
+                    break;
+                case Resource.Id.button_state_5:
+                    client.Friends.SetPersonaState(EPersonaState.Offline);
+                    break;
+                case Resource.Id.button_disconnect:
+                    client.Disconnect();
+                    break;
+                case Resource.Id.button_settings:
+                    Intent intentSettings = new Intent(this, typeof(Preferences));
+                    StartActivity(intentSettings);
+                    break;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        public override bool OnPrepareOptionsMenu(IMenu menu)
+        {
+            bool connected = (SteamService.GetClient() != null && SteamService.GetClient().LoggedIn);
+
+            menu.GetItem(0).SetEnabled(connected);
+            menu.GetItem(1).SetEnabled(connected);
+
+            return base.OnPrepareOptionsMenu(menu);
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception ex = (Exception)e.ExceptionObject;
+            Console.WriteLine("Unhandled exception caught: " + ex.Message);
+            CustomExceptionHandler.UncaughtException(ex);
         }
         
         public void HandleCallback(CallbackMsg msg)
@@ -108,27 +154,9 @@ namespace SteamDroid2.App
             Connect();
         }
         
-        private void ClickDisconnect(object sender, EventArgs e)
-        {
-            SteamService.GetClient().Disconnect();
-            SteamAlerts.ShowProgressDialog("Disconnecting", "Disconnecting from the Steam servers...", this);
-        }
-        
         private void ClickFriends(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(Friends));
-            StartActivity(intent);
-        }
-        
-        private void ClickChangeState(object sender, EventArgs e)
-        {
-            Intent intent = new Intent(this, typeof(ChangeState));
-            StartActivity(intent);
-        }
-        
-        private void ClickSettings(object sender, EventArgs e)
-        {
-            Intent intent = new Intent(this, typeof(Preferences));
             StartActivity(intent);
         }
 
@@ -198,14 +226,8 @@ namespace SteamDroid2.App
             Button buttonConnect = FindViewById<Button>(Resource.Id.ButtonConnect);
             buttonConnect.Enabled = !connected;
             
-            Button buttonDisconnect = FindViewById<Button>(Resource.Id.ButtonDisconnect);
-            buttonDisconnect.Enabled = connected;
-            
             Button buttonFriends = FindViewById<Button>(Resource.Id.ButtonFriends);
             buttonFriends.Enabled = connected;
-            
-            Button buttonChangeState = FindViewById<Button>(Resource.Id.ButtonChangeState);
-            buttonChangeState.Enabled = connected;
         }
     }
 }

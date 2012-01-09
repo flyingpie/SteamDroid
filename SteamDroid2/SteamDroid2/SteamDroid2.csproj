@@ -80,9 +80,6 @@
     <AndroidResource Include="Resources\Values\Colors.xml" />
     <AndroidResource Include="Resources\Values\Styles.xml" />
     <AndroidResource Include="Resources\Drawable\steamdroid_logo.png" />
-    <AndroidResource Include="Resources\Drawable\btn_disabled.png" />
-    <AndroidResource Include="Resources\Drawable\btn_enabled.png" />
-    <AndroidResource Include="Resources\Drawable\btn_pressed.png" />
     <AndroidResource Include="Resources\Drawable\btn_style.xml" />
     <AndroidResource Include="Resources\Drawable\LauncherIcon.png" />
     <AndroidResource Include="Resources\Layout\Main.xml" />
@@ -102,6 +99,14 @@
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\Drawable\DefaultAvatar.png" />
+    <AndroidResource Include="Resources\Menu\OptionsMenu.xml" />
+    <AndroidResource Include="Resources\Drawable\gradient.xml" />
+    <AndroidResource Include="Resources\Drawable\btn_disabled.9.png" />
+    <AndroidResource Include="Resources\Drawable\btn_pressed.9.png" />
+    <AndroidResource Include="Resources\Drawable\btn_enabled.9.png" />
+    <AndroidResource Include="Resources\Drawable\background.png" />
+    <AndroidResource Include="Resources\Drawable\edit_text.xml" />
+    <AndroidResource Include="Resources\Drawable\txt_background.9.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

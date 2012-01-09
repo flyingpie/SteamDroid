@@ -1,49 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Net;
 using System.IO;
 
 namespace SteamDroid2.Util
 {
-    public class CustomExceptionHandler : Java.Lang.Thread.IUncaughtExceptionHandler
+    public class CustomExceptionHandler
     {
         public const String StacktraceUrl = "http://dev.flyingpie.nl/stacktrace/upload.php";
 
-        private static CustomExceptionHandler handler;
-
-        public static CustomExceptionHandler GetHandler()
-        {
-            if (handler == null)
-            {
-                handler = new CustomExceptionHandler();
-            }
-
-            return handler;
-        }
-
-        public void UncaughtException(Java.Lang.Thread thread, Java.Lang.Throwable ex)
+        public static void UncaughtException(Exception ex)
         {
             Console.WriteLine("Uncaught exception: " + ex.Message);
             Java.Util.Date date = new Java.Util.Date();
             String timestamp = date.ToString();
-            Java.IO.Writer result = new Java.IO.StringWriter();
-            Java.IO.PrintWriter printWriter = new Java.IO.PrintWriter(result);
-            ex.PrintStackTrace(printWriter);
-            String stacktrace = result.ToString();
-            printWriter.Close();
+            String stacktrace = ex.StackTrace;
             String filename = timestamp + ".stacktrace";
 
             SendToServer(stacktrace, filename);
         }
 
-        public IntPtr Handle
+        private static void SendToServer(String stacktrace, String filename)
         {
-            get { return new IntPtr(); }
-        }
-
-        private void SendToServer(String stacktrace, String filename)
-        {
+            Console.WriteLine("Sending to server: " + filename);
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(StacktraceUrl);
             req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded";

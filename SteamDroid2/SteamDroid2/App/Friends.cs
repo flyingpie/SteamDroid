@@ -26,10 +26,17 @@ namespace SteamDroid2.App
 			
 			FriendsAdapter adapter = SteamAdapters.GetFriendsAdapter();
 			Friend friend = adapter.GetFriendAt(position);
-			
-			Intent chatIntent = new Intent(this, typeof(Chat));
-			chatIntent.PutExtra("steam_id", friend.SteamId.ToString());
-			StartActivity(chatIntent);
+
+            if (friend.State != SteamKit2.EPersonaState.Offline)
+            {
+                Intent chatIntent = new Intent(this, typeof(Chat));
+                chatIntent.PutExtra("steam_id", friend.SteamId.ToString());
+                StartActivity(chatIntent);
+            }
+            else
+            {
+                SteamAlerts.ShowToast(friend.Name + " is offline");
+            }
 		}
 	}
 }

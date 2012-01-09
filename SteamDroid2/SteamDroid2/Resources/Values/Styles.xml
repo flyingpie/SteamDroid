@@ -8,4 +8,7 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
 	</style>
+  <style name="steam_edittext" parent="@android:style/Widget.EditText">
+    <item name="android:background">@drawable/edit_text</item>
+  </style>
 </resources>

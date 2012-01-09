@@ -65,7 +65,7 @@ namespace SteamDroid2
                 if (callback.EntryType == EChatEntryType.ChatMsg)
                 {
                     Friend friend = Friend.GetFriendBySteamId(callback.Sender.ToString());
-                    
+
                     if(friend != activeChat)
                     {
                         Intent intent = new Intent(SteamAlerts.GetContext(), typeof(Chat));

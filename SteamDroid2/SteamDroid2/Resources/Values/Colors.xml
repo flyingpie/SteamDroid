@@ -5,4 +5,5 @@
 	<color name="StateOnline">#5f83aa</color>
 	<color name="StateOffline">#6e6c69</color>
 	<color name="StateInGame">#93be5b</color>
+  <color name="text">#d0d0d0</color>
 </resources>

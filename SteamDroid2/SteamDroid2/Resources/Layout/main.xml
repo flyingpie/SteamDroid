@@ -1,44 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:android="http://schemas.android.com/apk/res/android"
 	android:background="@color/background"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
 	android:weightSum="1">
-    <ImageView android:id="@+id/imageView1" android:src="@drawable/steamdroid_logo" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageView>
+  
+  <ImageView
+    android:id="@+id/image_header"
+    android:src="@drawable/steamdroid_logo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gradient"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp"/>
 	
-    <Button
-    	style="@style/SteamStyle"
-    	android:layout_height="wrap_content"
-    	android:layout_width="wrap_content"
-    	android:text="@string/connect"
-    	android:id="@+id/ButtonConnect"></Button>
+  <Button
+    style="@style/SteamStyle"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:text="@string/connect"
+    android:id="@+id/ButtonConnect"
+    android:layout_margin="5dp"></Button>
     	
-    <Button
-    	style="@style/SteamStyle"
-    	android:layout_height="wrap_content"
-    	android:layout_width="wrap_content"
-    	android:text="@string/disconnect"
-    	android:id="@+id/ButtonDisconnect"></Button>
-    
-    <Button
-    	style="@style/SteamStyle"
-    	android:layout_height="wrap_content"
-    	android:layout_width="320dp"
-    	android:text="@string/friends"
-    	android:id="@+id/ButtonFriends"></Button>
-    
-    <Button
-    	style="@style/SteamStyle"
-    	android:layout_height="wrap_content"
-    	android:layout_width="wrap_content"
-    	android:text="@string/change_state"
-    	android:id="@+id/ButtonChangeState"></Button>
-    
-    <Button
-    	style="@style/SteamStyle"
-    	android:layout_height="wrap_content"
-    	android:layout_width="wrap_content"
-    	android:text="@string/settings"
-    	android:id="@+id/ButtonSettings"></Button>
+  <Button
+    style="@style/SteamStyle"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:text="@string/friends"
+    android:id="@+id/ButtonFriends"
+    android:layout_margin="5dp"></Button>
+
+  <ImageView
+    android:id="@+id/image_background"
+    android:src="@drawable/background"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"/>
 </TableLayout>

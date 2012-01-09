@@ -41,6 +41,9 @@ namespace SteamDroid2
 			// aapt resource value: 0x7f040000
 			public const int background = 2130968576;
 			
+			// aapt resource value: 0x7f040005
+			public const int text = 2130968581;
+			
 			private Color()
 			{
 			}
@@ -50,31 +53,43 @@ namespace SteamDroid2
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int btn_disabled = 2130837504;
+			public const int background = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int btn_enabled = 2130837505;
+			public const int btn_disabled = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int btn_pressed = 2130837506;
+			public const int btn_enabled = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int btn_style = 2130837507;
+			public const int btn_pressed = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int DefaultAvatar = 2130837508;
+			public const int btn_style = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int Icon = 2130837509;
+			public const int DefaultAvatar = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int LauncherIcon = 2130837510;
+			public const int edit_text = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int NotificationIcon = 2130837511;
+			public const int gradient = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int steamdroid_logo = 2130837512;
+			public const int Icon = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int LauncherIcon = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int NotificationIcon = 2130837514;
+			
+			// aapt resource value: 0x7f02000b
+			public const int steamdroid_logo = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int txt_background = 2130837516;
 			
 			private Drawable()
 			{
@@ -84,53 +99,71 @@ namespace SteamDroid2
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f07000e
-			public const int ButtonChangeState = 2131165198;
+			// aapt resource value: 0x7f08000b
+			public const int ButtonConnect = 2131230731;
 			
-			// aapt resource value: 0x7f07000b
-			public const int ButtonConnect = 2131165195;
+			// aapt resource value: 0x7f08000c
+			public const int ButtonFriends = 2131230732;
 			
-			// aapt resource value: 0x7f07000c
-			public const int ButtonDisconnect = 2131165196;
+			// aapt resource value: 0x7f080009
+			public const int ButtonSend = 2131230729;
 			
-			// aapt resource value: 0x7f07000d
-			public const int ButtonFriends = 2131165197;
+			// aapt resource value: 0x7f080001
+			public const int ChatMessage = 2131230721;
 			
-			// aapt resource value: 0x7f070009
-			public const int ButtonSend = 2131165193;
+			// aapt resource value: 0x7f080000
+			public const int ChatName = 2131230720;
 			
-			// aapt resource value: 0x7f07000f
-			public const int ButtonSettings = 2131165199;
+			// aapt resource value: 0x7f080005
+			public const int FriendGame = 2131230725;
 			
-			// aapt resource value: 0x7f070001
-			public const int ChatMessage = 2131165185;
+			// aapt resource value: 0x7f080003
+			public const int FriendName = 2131230723;
 			
-			// aapt resource value: 0x7f070000
-			public const int ChatName = 2131165184;
+			// aapt resource value: 0x7f080004
+			public const int FriendState = 2131230724;
 			
-			// aapt resource value: 0x7f070005
-			public const int FriendGame = 2131165189;
+			// aapt resource value: 0x7f080002
+			public const int ImageAvatar = 2131230722;
 			
-			// aapt resource value: 0x7f070003
-			public const int FriendName = 2131165187;
+			// aapt resource value: 0x7f080006
+			public const int ListOutput = 2131230726;
 			
-			// aapt resource value: 0x7f070004
-			public const int FriendState = 2131165188;
+			// aapt resource value: 0x7f080008
+			public const int TextInput = 2131230728;
 			
-			// aapt resource value: 0x7f070002
-			public const int ImageAvatar = 2131165186;
+			// aapt resource value: 0x7f080014
+			public const int button_disconnect = 2131230740;
 			
-			// aapt resource value: 0x7f070006
-			public const int ListOutput = 2131165190;
+			// aapt resource value: 0x7f080015
+			public const int button_settings = 2131230741;
 			
-			// aapt resource value: 0x7f070008
-			public const int TextInput = 2131165192;
+			// aapt resource value: 0x7f08000f
+			public const int button_state_1 = 2131230735;
 			
-			// aapt resource value: 0x7f07000a
-			public const int imageView1 = 2131165194;
+			// aapt resource value: 0x7f080010
+			public const int button_state_2 = 2131230736;
 			
-			// aapt resource value: 0x7f070007
-			public const int linearLayout1 = 2131165191;
+			// aapt resource value: 0x7f080011
+			public const int button_state_3 = 2131230737;
+			
+			// aapt resource value: 0x7f080012
+			public const int button_state_4 = 2131230738;
+			
+			// aapt resource value: 0x7f080013
+			public const int button_state_5 = 2131230739;
+			
+			// aapt resource value: 0x7f08000d
+			public const int image_background = 2131230733;
+			
+			// aapt resource value: 0x7f08000a
+			public const int image_header = 2131230730;
+			
+			// aapt resource value: 0x7f080007
+			public const int linearLayout1 = 2131230727;
+			
+			// aapt resource value: 0x7f08000e
+			public const int menu_change_state = 2131230734;
 			
 			private Id()
 			{
@@ -159,6 +192,17 @@ namespace SteamDroid2
 			public const int Preferences = 2130903045;
 			
 			private Layout()
+			{
+			}
+		}
+		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f070000
+			public const int OptionsMenu = 2131165184;
+			
+			private Menu()
 			{
 			}
 		}
@@ -203,6 +247,9 @@ namespace SteamDroid2
 			
 			// aapt resource value: 0x7f060000
 			public const int SteamStyle = 2131099648;
+			
+			// aapt resource value: 0x7f060001
+			public const int steam_edittext = 2131099649;
 			
 			private Style()
 			{

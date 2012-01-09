@@ -39,7 +39,7 @@ namespace SteamDroid2.App
             
             SteamService.ClearActiveChat();
         }
-
+        
         protected void UpdateFriend()
         {
             ImageView imageAvatar = FindViewById<ImageView>(Resource.Id.ImageAvatar);
