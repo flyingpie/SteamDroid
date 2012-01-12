@@ -28,10 +28,11 @@ namespace SteamDroid2
         {
             Initialize();
 
-            // If the image is cached in memory, use it from there
-            if (bitmapCache.ContainsKey(key))
+            // If the image is cached in memory or file, use it from there
+            Bitmap bitmap;
+            if (LoadImageFromCache(key, out bitmap))
             {
-                result(bitmapCache[key]);
+                result(bitmap);
                 return;
             }
 
@@ -43,7 +44,13 @@ namespace SteamDroid2
         {
             try
             {
-                bitmap.Compress(Bitmap.CompressFormat.Png, 90, File.Open(System.IO.Path.Combine(CacheDir, key), FileMode.OpenOrCreate));
+                String path = EncodePath(System.IO.Path.Combine(CacheDir, key));
+                Console.WriteLine("Caching image " + key + " to " + path);
+                FileStream stream = File.Open(path, FileMode.OpenOrCreate);
+                bitmap.Compress(Bitmap.CompressFormat.Png, 90, stream);
+                stream.Close();
+
+                bitmapCache.Add(key, bitmap);
             }
             catch (Exception e)
             {
@@ -51,9 +58,52 @@ namespace SteamDroid2
             }
         }
 
+        private static bool LoadImageFromCache(String key, out Bitmap bitmap)
+        {
+            try
+            {
+                if (bitmapCache.ContainsKey(key))
+                {
+                    Console.WriteLine("Loading image from memory cache");
+                    bitmap = bitmapCache[key];
+                    return true;
+                }
+                
+                String path = EncodePath(System.IO.Path.Combine(CacheDir, key));
+
+                if (File.Exists(path))
+                {
+                    FileInfo info = new FileInfo(path);
+
+                    if (info.Length > 0)
+                    {
+                        Console.WriteLine("Loading image from file cache");
+                        bitmap = BitmapFactory.DecodeFile(path);
+                        return true;
+                    }
+                    else
+                    {
+                        File.Delete(path);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error loading image from cache: " + e.Message);
+            }
+
+            bitmap = null;
+            return false;
+        }
+
+        private static String EncodePath(String path)
+        {
+            return path.Replace(":", "_");
+        }
+
         class ImageLoader : AsyncTask<ImageLoadArguments, int, Bitmap>
         {
-            private const int MAX_THREADS = 8;
+            private const int MAX_THREADS = 1;
 
             private static Queue<ImageLoadArguments> queue;
             private static int running;
@@ -64,6 +114,15 @@ namespace SteamDroid2
                 {
                     queue = new Queue<ImageLoadArguments>();
                     running = 0;
+                }
+
+                foreach (ImageLoadArguments currentArg in queue)
+                {
+                    if (currentArg.Key == args.Key)
+                    {
+                        Console.WriteLine("Image already in download queue");
+                        return;
+                    }
                 }
 
                 Console.WriteLine("Enqueued image (" + queue.Count + ") threads: " + running);
@@ -89,26 +148,17 @@ namespace SteamDroid2
 
                 arg = args[0];
 
-                // If the image is cached on disk, use it from there
-                String file = System.IO.Path.Combine(CacheDir, arg.Key);
-                if (File.Exists(file))
-                {
-                    Bitmap bmp = BitmapFactory.DecodeFile(file);
-                    bitmapCache.Add(arg.Key, bmp);
-                    return bmp;
-                }
-
-                // Image not yet downloaded, do so now
                 try
                 {
-                    Bitmap bmp = BitmapFactory.DecodeStream(new Java.Net.URL(arg.Url).OpenStream());
-                    bitmapCache.Add(arg.Key, bmp);
-                    CacheImage(arg.Key, bmp);
-                    return bmp;
+                    Bitmap bitmap = BitmapFactory.DecodeStream(new Java.Net.URL(arg.Url).OpenStream());
+
+                    CacheImage(arg.Key, bitmap);
+
+                    return bitmap;
                 }
-                catch(Exception)
+                catch (Exception e)
                 {
-                    //Console.WriteLine("Error retrieving image '" + arg.Url + "': " + e.Message);
+                    Console.WriteLine("Error loading image: " + e.Message);
                 }
 
                 return null;
