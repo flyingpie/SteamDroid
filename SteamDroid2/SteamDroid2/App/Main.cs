@@ -14,7 +14,7 @@ using SteamDroid2.Util;
 namespace SteamDroid2.App
 {
     [Activity(Label = "Steam Droid", MainLauncher = true, Icon = "@drawable/LauncherIcon")]
-    public class Main : Activity, ICallbackHandler
+    public class Main : Activity, ICallbackHandler, IServiceConnection
     {
         private EditText inputAuthKey;
         
@@ -36,7 +36,7 @@ namespace SteamDroid2.App
             
             Intent steamService = new Intent(this, typeof(SteamService));
             StartService(steamService);
-            
+
             UpdateButtons();
             
             SteamService.GetClient().AddHandler(this);
@@ -228,6 +228,16 @@ namespace SteamDroid2.App
             
             Button buttonFriends = FindViewById<Button>(Resource.Id.ButtonFriends);
             buttonFriends.Enabled = connected;
+        }
+
+        public void OnServiceConnected(ComponentName name, IBinder service)
+        {
+            Console.WriteLine("Connected to SteamService");
+        }
+
+        public void OnServiceDisconnected(ComponentName name)
+        {
+            Console.WriteLine("Disconnected from SteamService");
         }
     }
 }

@@ -17,10 +17,10 @@ namespace SteamDroid2.App
         {
             base.OnCreate(bundle);
             SetContentView (Resource.Layout.Chat);
-            
+
             String steamId = Intent.GetStringExtra("steam_id");
             friend = Friend.GetFriendBySteamId(steamId);
-            
+
             ListView listOutput = FindViewById<ListView>(Resource.Id.ListOutput);
             listOutput.TranscriptMode = TranscriptMode.AlwaysScroll;
             listOutput.Adapter = friend.Adapter;
@@ -32,7 +32,7 @@ namespace SteamDroid2.App
 
             SteamService.SetActiveChat(friend);
         }
-        
+
         protected override void OnStop()
         {
             base.OnStop();

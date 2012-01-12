@@ -5,6 +5,7 @@ using SteamKit2;
 using SteamDroid2.Api;
 using SteamDroid2.App;
 using SteamDroid2.Util;
+using System;
 
 namespace SteamDroid2
 {
@@ -14,7 +15,7 @@ namespace SteamDroid2
         private static Steam client;
         
         private static Friend activeChat;
-        
+
         public override IBinder OnBind (Intent intent)
         {
             return null;
@@ -39,7 +40,7 @@ namespace SteamDroid2
         {
             SteamService.activeChat = friend;
         }
-        
+
         public override void OnStart(Intent intent, int startId)
         {
             base.OnStart (intent, startId);
@@ -69,6 +70,7 @@ namespace SteamDroid2
                     if(friend != activeChat)
                     {
                         Intent intent = new Intent(SteamAlerts.GetContext(), typeof(Chat));
+                        intent.SetAction("chat_notification_" + DateTime.Now.Ticks);
                         intent.PutExtra("steam_id", friend.SteamId.ToString());
 
                         SteamAlerts.Notification("Message from " + friend.Name, friend.Name + ": " + callback.Message, callback.Message, intent, "steam_id", friend.SteamId.ToString());
