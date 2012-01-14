@@ -7,9 +7,9 @@ using Android.Views;
 using Android.Widget;
 
 using SteamKit2;
-using SteamDroid2.Api;
+using SteamDroid.Api;
 
-namespace SteamDroid2.Adapters
+namespace SteamDroid.Adapters
 {
     public class FriendsAdapter : BaseAdapter, ICallbackHandler
     {
@@ -118,16 +118,14 @@ namespace SteamDroid2.Adapters
 
             if (pref.GetBoolean("prefEnableAvatars", false))
             {
-                String url = friend.Avatar;
-                
-                holder.ImageAvatar.SetBackgroundColor(color);
-
-                SetAvatarImage(holder.ImageAvatar, friend);
-
-                friend.DataChangedHandler = delegate(object sender, EventArgs e)
+                friend.DataChangedHandler = delegate(object sender, EventArgs args)
                 {
                     SetAvatarImage(holder.ImageAvatar, friend);
                 };
+
+                holder.ImageAvatar.SetBackgroundColor(color);
+
+                SetAvatarImage(holder.ImageAvatar, friend);
             }
             
             return view;

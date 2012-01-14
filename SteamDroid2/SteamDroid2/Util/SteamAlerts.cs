@@ -5,13 +5,15 @@ using Android.Media;
 using Android.OS;
 using Android.Preferences;
 using Android.Widget;
+using Android.Util;
 
-namespace SteamDroid2.Util
+namespace SteamDroid.Util
 {
     public class SteamAlerts
     {
         private static MediaPlayer mediaPlayer;
 
+        private static AudioManager audioManager;
         private static NotificationManager notificationManager;
         private static Vibrator vibrator;
         
@@ -21,17 +23,22 @@ namespace SteamDroid2.Util
         private static AlertDialog.Builder alert;
         
         private static bool isAlertsEnabled;
+        private static bool isProgressEnabled;
         
         public static void Initialize(Activity activity)
         {
+            audioManager = (AudioManager)activity.GetSystemService(Context.AudioService);
+            
             mediaPlayer = MediaPlayer.Create(activity.ApplicationContext, Resource.Raw.Message);
-
+            
             notificationManager = (NotificationManager)activity.GetSystemService(Context.NotificationService);
             vibrator = (Vibrator)activity.GetSystemService(Context.VibratorService);
             
-            context = activity.ApplicationContext;
-            
+            //context = activity.ApplicationContext;
+            context = activity;
+
             isAlertsEnabled = true;
+            isProgressEnabled = true;
         }
         
         public static Context GetContext()
@@ -63,6 +70,17 @@ namespace SteamDroid2.Util
         public static void DisableAlerts()
         {
             isAlertsEnabled = false;
+        }
+
+        public static void EnableProgress()
+        {
+            isProgressEnabled = true;
+        }
+
+        public static void DisableProgress()
+        {
+            isProgressEnabled = false;
+            HideProgressDialog();
         }
         
         public static void ShowProgressDialog(String title, String message, Context context)
@@ -96,10 +114,10 @@ namespace SteamDroid2.Util
                 dialog.Cancel();
             }
         }
-        
+
         public static void HideProgressDialog()
         {
-            if(dialog != null)
+            if (dialog != null)
             {
                 dialog.Hide();
             }
@@ -119,8 +137,14 @@ namespace SteamDroid2.Util
                 }
                 
                 PendingIntent contentIntent = PendingIntent.GetActivity(context, 0, intent, 0);
-                
-                notification.Flags = NotificationFlags.AutoCancel;
+
+                bool permNotification = pref.GetBoolean("prefEnablePermNotification", false);
+
+                if (!permNotification)
+                {
+                    notification.Flags = NotificationFlags.AutoCancel;
+                }
+
                 notification.SetLatestEventInfo(context, "SteamDroid | " + title, message, contentIntent);
                 
                 notificationManager.Notify(1, notification);
@@ -149,6 +173,11 @@ namespace SteamDroid2.Util
         {
             if (PreferenceManager.GetDefaultSharedPreferences(GetContext()).GetBoolean("prefEnableSound", true))
             {
+                int streamVolume = audioManager.GetStreamVolume(Stream.Notification);
+                int streamVolumeMax = audioManager.GetStreamMaxVolume(Stream.Notification);
+                float volume = (float)streamVolume / (float)streamVolumeMax;
+                mediaPlayer.SetVolume(volume, volume);
+
                 mediaPlayer.Start();
             }
         }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SteamDroid2
+namespace SteamDroid
 {
 	
 	
@@ -244,6 +244,9 @@ namespace SteamDroid2
 			
 			// aapt resource value: 0x7f060003
 			public const int friends = 2131099651;
+			
+			// aapt resource value: 0x7f060009
+			public const int powered_by = 2131099657;
 			
 			// aapt resource value: 0x7f060004
 			public const int settings = 2131099652;

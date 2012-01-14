@@ -2,10 +2,10 @@ using System;
 using Android.Graphics;
 using Android.OS;
 using SteamKit2;
-using SteamDroid2.Adapters;
-using SteamDroid2.Util;
+using SteamDroid.Adapters;
+using SteamDroid.Util;
 
-namespace SteamDroid2.Api
+namespace SteamDroid.Api
 {
     /// <summary>
     /// Friend class contains information on a single friend and is used for list adapters and sending messages
@@ -78,7 +78,16 @@ namespace SteamDroid2.Api
         {
             get { return steamId; }	
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual EventHandler DataChangedHandler
+        {
+            get { return dataChangedHandler; }
+            set { dataChangedHandler = value; }
+        }
+
         /// <summary>
         /// Gets the state.
         /// </summary>
@@ -113,20 +122,27 @@ namespace SteamDroid2.Api
         }
 
         /// <summary>
-        /// Gets or sets the data changed handler of this friend
-        /// </summary>
-        public virtual EventHandler DataChangedHandler
-        {
-            get { return dataChangedHandler; }
-            set { dataChangedHandler = value; }
-        }
-
-        /// <summary>
         /// Downloads the avatar
         /// </summary>
         public void DownloadAvatar()
         {
-            SteamFiles.LoadFromWeb("avatar_" + SteamId, Avatar, (x) => AvatarBitmap = x);
+            // If the avatar is not unknown and not already loaded, continue the load process
+            if (Avatar != Unknown && AvatarBitmap == null)
+            {
+                // Define the callback handler called when the image is loaded
+                Func<Bitmap, Object> handler = (x) => 
+                {
+                    AvatarBitmap = x;
+                    if(DataChangedHandler != null)
+                    {
+                        DataChangedHandler(this, EventArgs.Empty);
+                    }
+                    return null;
+                };
+
+                // Request the avatar
+                SteamFiles.LoadFromWeb("avatar_" + SteamId, Avatar, handler);
+            }
         }
 
         /// <summary>
@@ -191,6 +207,11 @@ namespace SteamDroid2.Api
             }
         }
         
+        /// <summary>
+        /// Returns the friend with the specified steam id
+        /// </summary>
+        /// <param name="steamId"></param>
+        /// <returns></returns>
         public static Friend GetFriendBySteamId(String steamId)
         {
             FriendsAdapter adapter = SteamAdapters.GetFriendsAdapter();
@@ -206,16 +227,21 @@ namespace SteamDroid2.Api
             throw new Exception("Error retrieving friend by Steam ID: " + steamId);
         }
 
+        /// <summary>
+        /// Compares this friend to the specified one for sorting purposes
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public int CompareTo(Friend other)
         {
             bool meInGame = GameName != null && GameName.Length > 0;
             bool otherInGame = other.GameName != null && other.GameName.Length > 0;
 
-            if (meInGame && !otherInGame)
+            if (meInGame && State != EPersonaState.Offline && !otherInGame)
             {
                 return -1;
             }
-            else if (!meInGame && otherInGame)
+            else if (!meInGame && otherInGame && other.State != EPersonaState.Offline)
             {
                 return 1;
             }
@@ -230,24 +256,6 @@ namespace SteamDroid2.Api
             else
             {
                 return Name.CompareTo(other.Name);
-            }
-        }
-
-        class AvatarDownloader : AsyncTask<Friend, int, int>
-        {
-            protected override int RunInBackground(params Friend[] friend)
-            {
-                try
-                {
-                    Bitmap bmp = BitmapFactory.DecodeStream(new Java.Net.URL(friend[0].Avatar).OpenStream());
-
-                    friend[0].AvatarBitmap = bmp;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error downloading avatar: " + e.Message);
-                }
-                return 0;
             }
         }
     }

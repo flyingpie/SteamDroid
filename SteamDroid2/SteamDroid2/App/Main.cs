@@ -8,10 +8,11 @@ using Android.Widget;
 using Android.OS;
 
 using SteamKit2;
-using SteamDroid2.Api;
-using SteamDroid2.Util;
+using SteamDroid.Api;
+using SteamDroid.Util;
+using System.Threading;
 
-namespace SteamDroid2.App
+namespace SteamDroid.App
 {
     [Activity(Label = "Steam Droid", MainLauncher = true, Icon = "@drawable/LauncherIcon")]
     public class Main : Activity, ICallbackHandler, IServiceConnection
@@ -33,17 +34,16 @@ namespace SteamDroid2.App
             buttonFriends.Click += ClickFriends;
 
             SteamAlerts.Initialize(this);
-            
-            Intent steamService = new Intent(this, typeof(SteamService));
-            StartService(steamService);
+
+            if (!SteamService.IsRunning())
+            {
+                Intent steamService = new Intent(this, typeof(SteamService));
+                StartService(steamService);
+            }
 
             UpdateButtons();
             
             SteamService.GetClient().AddHandler(this);
-
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
-            //"abc".Substring(5);
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -74,6 +74,7 @@ namespace SteamDroid2.App
                     client.Friends.SetPersonaState(EPersonaState.Offline);
                     break;
                 case Resource.Id.button_disconnect:
+                    SteamService.DisableAutoReconnect();
                     client.Disconnect();
                     break;
                 case Resource.Id.button_settings:
@@ -93,27 +94,14 @@ namespace SteamDroid2.App
 
             return base.OnPrepareOptionsMenu(menu);
         }
-
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Exception ex = (Exception)e.ExceptionObject;
-            Console.WriteLine("Unhandled exception caught: " + ex.Message);
-            CustomExceptionHandler.UncaughtException(ex);
-        }
         
         public void HandleCallback(CallbackMsg msg)
         {
             if(msg.IsType<SteamClient.ConnectCallback>())
             {
-                SteamAlerts.ShowProgressDialog("Connecting", "Logging in...", this);
-            }
-            else if(msg.IsType<SteamClient.DisconnectCallback>())
-            {
-                //SteamAlerts.ShowAlertDialog("Disconnected", "Disconnected from Steam", this);
-            }
-            else if(msg.IsType<SteamUser.LoginKeyCallback>())
-            {
-                //SteamAlerts.ShowAlertDialog("Connected", "Connected to Steam", this);
+                int retryCount = SteamService.GetClient().GetRetryCount();
+                String retries = (retryCount > 0) ? " (retry " + retryCount + ")" : "";
+                SteamAlerts.ShowProgressDialog("Connecting", "Logging in..." + retries, this);
             }
             else if(msg.IsType<SteamUser.LogOnCallback>())
             {

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Android.OS;
 
 using SteamKit2;
+using SteamDroid.Util;
 
-namespace SteamDroid2.Api
+namespace SteamDroid.Api
 {
     public class Steam
     {
@@ -20,6 +21,10 @@ namespace SteamDroid2.Api
         private String authcode;
 
         private bool loggedIn;
+
+        private int retry;
+
+        private TimeoutHandler timeout;
 
         public Steam()
         {
@@ -60,6 +65,14 @@ namespace SteamDroid2.Api
         public bool LoggedIn
         {
             get { return loggedIn; }
+        }
+
+        /// <summary>
+        /// Connects using the previous username and password
+        /// </summary>
+        public void Connect()
+        {
+            Connect(username, password);
         }
 
         /// <summary>
@@ -118,6 +131,15 @@ namespace SteamDroid2.Api
         }
 
         /// <summary>
+        /// Returns how many retries have been attempted
+        /// </summary>
+        /// <returns></returns>
+        public int GetRetryCount()
+        {
+            return retry;
+        }
+
+        /// <summary>
         /// Processes the callbacks received from the callback thread
         /// </summary>
         /// <param name='msg'>
@@ -133,6 +155,24 @@ namespace SteamDroid2.Api
                     Password = password,
                     AuthCode = authcode
                 });
+                /*
+                timeout = TimeoutHandler.Start(10000, () =>
+                {
+                    Disconnect();
+
+                    if (retry < 2)
+                    {
+                        Connect();
+
+                        retry++;
+                    }
+                    else
+                    {
+                        retry = 0;
+                    }
+
+                    return null;
+                });*/
             }
 
             if (msg.IsType<SteamClient.DisconnectCallback>() || msg.IsType<SteamUser.LoggedOffCallback>())
@@ -148,6 +188,19 @@ namespace SteamDroid2.Api
                 {
                     loggedIn = true;
                     authcode = null;
+                    retry = 0;
+
+                    if (timeout != null)
+                    {
+                        timeout.Cancel(true);
+                    }
+
+                    Friends.SetPersonaState(EPersonaState.Online);
+
+                    Friend.Me = new Friend(User.GetSteamID());
+                    Friend.Me.Name = "me";
+
+                    SteamAlerts.ShowToast("Connected to Steam");
                 }
             }
             Push(msg);
@@ -164,6 +217,7 @@ namespace SteamDroid2.Api
                 user = client.GetHandler<SteamUser>();
                 friends = client.GetHandler<SteamFriends>();
                 loggedIn = false;
+                retry = 0;
             }
         }
 

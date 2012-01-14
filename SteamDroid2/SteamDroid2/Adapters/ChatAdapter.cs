@@ -5,9 +5,9 @@ using Android.Views;
 using Android.Widget;
 
 using SteamKit2;
-using SteamDroid2.Api;
+using SteamDroid.Api;
 
-namespace SteamDroid2
+namespace SteamDroid
 {
     public class ChatAdapter : BaseAdapter, ICallbackHandler
     {

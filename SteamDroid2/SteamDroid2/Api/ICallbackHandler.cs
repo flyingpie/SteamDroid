@@ -1,6 +1,6 @@
 using SteamKit2;
 
-namespace SteamDroid2.Api
+namespace SteamDroid.Api
 {
     public interface ICallbackHandler
     {

@@ -5,7 +5,7 @@ using Android.Widget;
 
 using SteamKit2;
 
-namespace SteamDroid2.App
+namespace SteamDroid.App
 {
 	[Activity (Label = "ChangeState")]			
 	public class ChangeState : ListActivity

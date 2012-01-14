@@ -3,11 +3,11 @@ using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using SteamDroid2.Adapters;
-using SteamDroid2.Api;
-using SteamDroid2.Util;
+using SteamDroid.Adapters;
+using SteamDroid.Api;
+using SteamDroid.Util;
 
-namespace SteamDroid2.App
+namespace SteamDroid.App
 {
     [Activity (Label = "Friends")]			
     public class Friends : ListActivity
@@ -27,15 +27,19 @@ namespace SteamDroid2.App
             FriendsAdapter adapter = SteamAdapters.GetFriendsAdapter();
             Friend friend = adapter.GetFriendAt(position);
 
-            if (friend.State != SteamKit2.EPersonaState.Offline)
+            if (SteamService.GetClient().Friends.GetPersonaState() == SteamKit2.EPersonaState.Offline)
+            {
+                SteamAlerts.ShowToast("Your state is set to offline");
+            }
+            else if (friend.State == SteamKit2.EPersonaState.Offline)
+            {
+                SteamAlerts.ShowToast(friend.Name + " is offline");
+            }
+            else
             {
                 Intent chatIntent = new Intent(this, typeof(Chat));
                 chatIntent.PutExtra("steam_id", friend.SteamId.ToString());
                 StartActivity(chatIntent);
-            }
-            else
-            {
-                SteamAlerts.ShowToast(friend.Name + " is offline");
             }
         }
     }

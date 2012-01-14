@@ -1,7 +1,7 @@
 using System;
-using SteamDroid2.Adapters;
+using SteamDroid.Adapters;
 
-namespace SteamDroid2.Util
+namespace SteamDroid.Util
 {
 	public class SteamAdapters
 	{

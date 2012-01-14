@@ -1,6 +1,6 @@
 using System;
 
-namespace SteamDroid2.Api
+namespace SteamDroid.Api
 {
 	/// <summary>
 	/// Chat message represents a single message send or received from or to the chat

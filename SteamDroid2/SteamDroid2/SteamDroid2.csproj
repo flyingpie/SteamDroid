@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SteamDroid2</RootNamespace>
+    <RootNamespace>SteamDroid</RootNamespace>
     <AssemblyName>SteamDroid2</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
@@ -68,10 +68,10 @@
     <Compile Include="Adapters\FriendsAdapter.cs" />
     <Compile Include="Api\ChatMessage.cs" />
     <Compile Include="Adapters\ChatAdapter.cs" />
-    <Compile Include="Util\CustomExceptionHandler.cs" />
     <Compile Include="Util\SteamAlerts.cs" />
     <Compile Include="Util\SteamAdapters.cs" />
     <Compile Include="Util\SteamFiles.cs" />
+    <Compile Include="Util\TimeoutHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

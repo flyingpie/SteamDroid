@@ -31,6 +31,13 @@
     android:id="@+id/ButtonFriends"
     android:layout_margin="5dp"></Button>
 
+  <TextView
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:text="@string/powered_by"
+    android:padding="5dp" />
+  
   <ImageView
     android:id="@+id/image_background"
     android:src="@drawable/background"

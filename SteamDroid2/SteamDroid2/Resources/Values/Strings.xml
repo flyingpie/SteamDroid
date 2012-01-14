@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Hello">Hello World, Click Me!</string>
-    <string name="ApplicationName">SteamDroid2</string>
-	<string name="Send"></string>
-    <string name="friends">Friends</string>
-    <string name="settings">Settings</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="connect">Connect</string>
-    <string name="change_state">Change state</string>
-    <string name="exit">Exit</string>
+  <string name="Hello">Hello World, Click Me!</string>
+  <string name="ApplicationName">SteamDroid2</string>
+  <string name="Send"></string>
+  <string name="friends">Friends</string>
+  <string name="settings">Settings</string>
+  <string name="disconnect">Disconnect</string>
+  <string name="connect">Connect</string>
+  <string name="change_state">Change state</string>
+  <string name="exit">Exit</string>
+  <string name="powered_by">Powered by SteamKit2</string>
 </resources>

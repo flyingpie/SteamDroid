@@ -4,9 +4,9 @@ using Android.OS;
 using Android.Widget;
 
 using SteamKit2;
-using SteamDroid2.Api;
+using SteamDroid.Api;
 
-namespace SteamDroid2.App
+namespace SteamDroid.App
 {
     [Activity (Label = "Chat")]			
     public class Chat : Activity
