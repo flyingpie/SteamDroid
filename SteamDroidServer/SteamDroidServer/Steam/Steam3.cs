@@ -184,6 +184,8 @@ namespace SteamDroidServer.Steam
                         this.loggedIn = true;
                         this.authcode = null;
                     }
+
+                    Friends.SetPersonaState(EPersonaState.Online);
                 }
 
                 Push(msg);

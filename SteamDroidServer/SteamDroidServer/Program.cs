@@ -30,7 +30,7 @@ namespace SteamDroidServer
                 String ip = DefaultIp;
                 int port = DefaultPort;
 
-                if (LoadKey() && CheckSteamKit())
+                if (CheckSteamKit())
                 {
                     // Use the specified ip address, if any
                     if (args.Length >= 1)

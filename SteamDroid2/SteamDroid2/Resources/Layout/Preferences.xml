@@ -52,13 +52,6 @@
       android:key="prefEnableAvatars" />
 
     <CheckBoxPreference
-      android:name="prefEnableReconnect"
-      android:summary="Automatically reconnect when disconnected"
-      android:defaultValue="false"
-      android:title="Auto reconnect"
-      android:key="prefEnableReconnect" />
-
-    <CheckBoxPreference
       android:name="prefEnablePermNotification"
       android:summary="Always show a notification"
       android:defaultValue="false"

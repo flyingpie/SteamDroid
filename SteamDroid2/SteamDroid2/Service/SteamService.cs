@@ -88,13 +88,13 @@ namespace SteamDroid
         public void HandleCallback(CallbackMsg msg)
         {
             if(msg.IsType<SteamUser.LoginKeyCallback>())
-            {/*
+            {
                 GetClient().Friends.SetPersonaState(EPersonaState.Online);
                 
                 Friend.Me = new Friend(GetClient().User.GetSteamID());
                 Friend.Me.Name = "me";
 
-                SteamAlerts.ShowToast("Connected to Steam");*/
+                SteamAlerts.ShowToast("Connected to Steam");
             }
             else if (msg.IsType<SteamUser.LogOnCallback>())
             {
@@ -137,21 +137,6 @@ namespace SteamDroid
             {
                 SteamAlerts.Notification("Steam Droid", "Disconnected from Steam", "Connected to Steam", new Intent(SteamAlerts.GetContext(), typeof(Main)), null, null);
                 SteamAlerts.ShowToast("Disconnected from Steam");
-
-                ISharedPreferences pref = PreferenceManager.GetDefaultSharedPreferences(this);
-                bool autoReconnect = SteamService.autoReconnect && pref.GetBoolean("prefEnableReconnect", false);
-
-                if (autoReconnect)
-                {
-                    String username = pref.GetString("prefUsername", "");
-                    String password = pref.GetString("prefPassword", "");
-
-                    if (username.Length > 0 && password.Length > 0)
-                    {
-                        SteamService.GetClient().Connect(username, password);
-                        SteamAlerts.ShowProgressDialog("Connecting", "Connecting to the Steam servers...", this);
-                    }
-                }
             }
         }
     }

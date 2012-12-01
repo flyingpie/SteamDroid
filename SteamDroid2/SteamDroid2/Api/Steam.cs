@@ -189,20 +189,34 @@ namespace SteamDroid.Api
                     loggedIn = true;
                     authcode = null;
                     retry = 0;
-
+                    /*
                     if (timeout != null)
                     {
                         timeout.Cancel(true);
-                    }
-
+                    }*/
+                    /*
                     Friends.SetPersonaState(EPersonaState.Online);
 
                     Friend.Me = new Friend(User.GetSteamID());
                     Friend.Me.Name = "me";
 
                     SteamAlerts.ShowToast("Connected to Steam");
+                    SteamAlerts.Notification("SteamDroid", "Connected to Steam", "Connected to Steam", new Android.Content.Intent(SteamAlerts.GetContext(), typeof(App.Main)), null, null);
+                     */
                 }
             }
+
+            if (msg.IsType<SteamUser.LoginKeyCallback>())
+            {
+                Friends.SetPersonaState(EPersonaState.Online);
+
+                Friend.Me = new Friend(User.GetSteamID());
+                Friend.Me.Name = "me";
+
+                SteamAlerts.ShowToast("Connected to Steam");
+                SteamAlerts.Notification("SteamDroid", "Connected to Steam", "Connected to Steam", new Android.Content.Intent(SteamAlerts.GetContext(), typeof(App.Main)), null, null);
+            }
+
             Push(msg);
         }
 
